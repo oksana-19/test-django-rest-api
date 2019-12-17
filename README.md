@@ -6,6 +6,7 @@ DELETE api/invitations/<id>/ Delete the invitation with the given id
 
 The GET response object looks like this. 
 Use standard DRF tools to paginate
+```
 {
     ...
     data:[
@@ -21,25 +22,29 @@ Use standard DRF tools to paginate
     ...
     ]
 }
-
+```
 POST body
+```
 {
    'email': <str>
 }
-
+```
 POST response 
 An object like one in data of the GET response
 
 PATCHable fields
+```
 {
     'email': <str>,
     'used': <bool>
 }
+```
 
 PATCH response
 The <id> object
 
 models.py
+```
 class Invitation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     created_time = models.DateTimeField(default=timezone.now, db_index=True)
@@ -47,4 +52,5 @@ class Invitation(models.Model):
     used = models.BooleanField(default=False)
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='created_invitations',
-        on_delete=models.CASCADE, null=True, blank=Tr
+        on_delete=models.CASCADE, null=True, blank=True)
+```
