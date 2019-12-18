@@ -6,15 +6,16 @@ from apps.invitations.models import Invitation
 
 class InvitationSerializer(serializers.ModelSerializer):
     createdTime = serializers.DateTimeField(
-        source='created_time', default=timezone.now)
+        source='created_time', default=timezone.now, read_only=True)
     seconds = serializers.SerializerMethodField()
     creatorEmail = serializers.SerializerMethodField()
     creatorFullname = serializers.SerializerMethodField()
 
     class Meta:
         model = Invitation
-        fields = ('id', 'createdTime', 'seconds', 'email',
-                  'used', 'creatorEmail', 'creatorFullname', 'creator')
+        fields = ('id', 'createdTime', 'seconds', 'email', 'used',
+                  'creatorEmail', 'creatorFullname', 'creator')
+        read_only_fields = ('id',)
 
     def get_seconds(self, obj):
         """
