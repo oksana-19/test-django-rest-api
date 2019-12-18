@@ -27,6 +27,10 @@ class InvitationView(APIView):
 
         if serializer.is_valid():
             serializer.save()
+            from_email = request.user.email
+            to_email = request.data.get('email')
+            # Send notification from_email to to_email using
+            # any of SMS tools like Mailchimp, Sandgrid, etc..
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -50,6 +54,12 @@ class InvitationDetail(APIView):
 
         if serializer.is_valid():
             serializer.save()
+
+            if invitation.email and invitation.email != request.data.get('email'):
+                from_email = request.user.email
+                to_email = request.data.get('email')
+                # Send notification from_email to to_email using
+                # any of SMS tools like Mailchimp, Sandgrid, etc..
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
